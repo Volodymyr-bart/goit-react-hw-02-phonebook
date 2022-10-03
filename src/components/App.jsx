@@ -16,8 +16,6 @@ export class App extends Component {
   handleAddContact = data => {
     const { name, number, id } = data;
     const { contacts } = this.state;
-
-    //
     if (
       !contacts.some(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -34,6 +32,13 @@ export class App extends Component {
     }
   };
 
+  handleDeleteContact = id => {
+    // console.log(id);
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
   render() {
     return (
       <>
@@ -41,7 +46,10 @@ export class App extends Component {
         <ContactForm addContact={this.handleAddContact} />
         <h2>Contacts</h2>
         <Filter contacts={this.state.contacts} />
-        <ContactList contacts={this.state.contacts} />
+        <ContactList
+          contacts={this.state.contacts}
+          deleteContact={this.handleDeleteContact}
+        />
       </>
     );
   }
