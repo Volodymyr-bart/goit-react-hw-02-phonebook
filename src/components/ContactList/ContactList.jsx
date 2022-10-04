@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import { ContactPerson } from 'components/ContactPerson/ContactPerson';
+import { ListContacts } from './ContactList.styled';
 
 export const ContactList = ({ contacts, deleteContact }) => {
   return (
-    <ul>
+    <ListContacts>
       {contacts.map(({ id, name, number }) => (
         <ContactPerson
           key={id}
@@ -12,6 +14,18 @@ export const ContactList = ({ contacts, deleteContact }) => {
           deleteContact={deleteContact}
         />
       ))}
-    </ul>
+    </ListContacts>
   );
+};
+
+ContactList.propTypes = {
+  deleteContact: PropTypes.func.isRequired,
+
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
 };
