@@ -33,11 +33,22 @@ export class App extends Component {
   };
 
   handleDeleteContact = id => {
-    // console.log(id);
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
+
+  handleFilterChange = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  filteredContacts() {
+    const { contacts, filter } = this.state;
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
 
   render() {
     return (
@@ -45,9 +56,13 @@ export class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm addContact={this.handleAddContact} />
         <h2>Contacts</h2>
-        <Filter contacts={this.state.contacts} />
+        <Filter
+          // contacts={this.state.contacts}
+          value={this.state.filter}
+          onChange={this.handleFilterChange}
+        />
         <ContactList
-          contacts={this.state.contacts}
+          contacts={this.filteredContacts()}
           deleteContact={this.handleDeleteContact}
         />
       </>
